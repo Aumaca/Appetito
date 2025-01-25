@@ -1,0 +1,11 @@
+{
+	"@@locale": "en",
+	"welcomeMessage1": "Ordering food easily.",
+	"welcomeMessage2": "Let's start?",
+	"loginTitle": "Login",
+	"loginEmail": "Email",
+	"loginPassword": "Password",
+	"loginEnter": "Enter",
+	"loginOrSignUp": "Or sign up",
+	"loginForgotPassword": "I forget my password"
+}
