@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:appetito/utils/colors.dart';
 import 'package:appetito/screens/login/login.dart';
 import 'package:appetito/screens/login/welcome.dart';
-import 'package:appetito/utils/colors.dart';
 
 class LoginController extends StatefulWidget {
-  const LoginController({super.key});
+  final int initialPage;
+
+  const LoginController({super.key, this.initialPage = 0});
 
   @override
   State<LoginController> createState() => _LoginController();
 }
 
 class _LoginController extends State<LoginController> {
-  final controller = PageController(initialPage: 0);
+  late final PageController controller;
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: widget.initialPage);
+    _currentPage = widget.initialPage;
+  }
 
   void goNextPage() {
     controller.nextPage(

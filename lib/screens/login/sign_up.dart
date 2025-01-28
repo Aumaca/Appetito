@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:appetito/utils/colors.dart';
 import 'package:appetito/utils/routes.dart';
+import 'package:appetito/utils/colors.dart';
 import 'package:appetito/utils/auth/google_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _LoginState extends State<Login> {
-  ValueNotifier userCredential = ValueNotifier('');
-
+class _SignupState extends State<Signup> {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -30,6 +29,7 @@ class _LoginState extends State<Login> {
   @override
   void dispose() {
     _emailController.dispose();
+    _nameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -39,6 +39,21 @@ class _LoginState extends State<Login> {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        centerTitle: true,
+        title: SizedBox(
+          height: 54,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: const Icon(
+              Icons.local_pizza,
+              color: Colors.white,
+              size: 54,
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(50),
         child: Column(
@@ -46,7 +61,7 @@ class _LoginState extends State<Login> {
           children: [
             // Login Title
             Text(
-              localizations.loginTitle,
+              localizations.signupTitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -66,7 +81,7 @@ class _LoginState extends State<Login> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: localizations.loginEmail,
+                        labelText: localizations.signupEmail,
                       ),
                       validator: (value) {
                         if (value == null ||
@@ -77,13 +92,28 @@ class _LoginState extends State<Login> {
                         }
                         return null;
                       }),
+                  // Name
+                  TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: localizations.signupName,
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !RegExp(r'/^[A-Za-z\s]+$/').hasMatch(value)) {
+                          return "Invalid Name"; // Validation message
+                        }
+                        return null;
+                      }),
                   // Password
                   TextFormField(
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: localizations.loginPassword,
+                      labelText: localizations.signupPassword,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty || value.length < 8) {
@@ -98,7 +128,10 @@ class _LoginState extends State<Login> {
             const SizedBox(height: 25),
             // Submit button
             TextButton(
-              onPressed: _submit,
+              onPressed: () => registerWithEmailAndPassword(
+                _emailController.text,
+                _passwordController.text,
+              ),
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(
                   AppColors.primaryColor,
@@ -108,7 +141,7 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    localizations.loginEnter,
+                    localizations.signupEnter,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -125,12 +158,12 @@ class _LoginState extends State<Login> {
             ),
             TextButton(
               onPressed: () =>
-                  Navigator.pushReplacementNamed(context, Routes.signup),
+                  Navigator.pushReplacementNamed(context, Routes.login),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    localizations.loginOrSignUp,
+                    localizations.signupOrLogin,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -143,42 +176,6 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            SizedBox(height: 25),
-            Center(
-              child: Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    // Handle onPressed action here, like login("google")
-                    login("google");
-                  },
-                  borderRadius: BorderRadius.circular(10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/images/google_icon.png',
-                          width: 25,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          localizations.loginWithGoogle,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

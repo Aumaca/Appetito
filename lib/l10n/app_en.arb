@@ -7,5 +7,12 @@
 	"loginPassword": "Password",
 	"loginEnter": "Enter",
 	"loginOrSignUp": "Or sign up",
-	"loginForgotPassword": "I forget my password"
+	"loginForgotPassword": "I forget my password",
+	"loginWithGoogle": "Login with Google",
+	"signupTitle": "Sign Up",
+	"signupEmail": "Email",
+	"signupName": "Name",
+	"signupPassword": "Password",
+	"signupEnter": "Enter",
+	"signupOrLogin": "Or login"
 }

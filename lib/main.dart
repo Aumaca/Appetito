@@ -1,9 +1,16 @@
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:appetito/utils/routes.dart';
 import 'package:appetito/utils/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
